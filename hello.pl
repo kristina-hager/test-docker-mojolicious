@@ -3,15 +3,20 @@ use Mango;
 use Mango::BSON ':bson';
 use Mojo::Log;
 
-##kh todo: of course, change hard-code here
-my $uri = 'mongodb://172.17.0.7/test';
-helper mango => sub { state $mango = Mango->new($uri) };
-
 # Log to STDERR
 my $log = Mojo::Log->new;
+$log->info('DB port info1 ' . $ENV{DB_PORT_27017_TCP_ADDR});
+
+##kh todo: of course, change hard-code here
+my $uri = 'mongodb://' . $ENV{DB_PORT_27017_TCP_ADDR}. '/test';
+$log->info('DB URI: ' . $uri);
+helper mango => sub { state $mango = Mango->new($uri) };
+
 
 get '/' => sub {
     my $c = shift;
+
+    $log->info('DB port info ' . $ENV{DB_PORT_27017_TCP_ADDR});
 
     ##kh todo: hardcoded collection
     $log->info('FYI connecting to DB');
